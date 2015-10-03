@@ -10,6 +10,8 @@ package com.aem.application;
  * Please add the decription for all the members declared and defined in this interface
  *
  */
-public interface application_constants {
-
+public interface application_Constants 
+{
+	String interf_Webdriver_driverType="firefox";
+	long explicit_wait_value=7000;
 }
