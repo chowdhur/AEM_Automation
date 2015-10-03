@@ -1,5 +1,10 @@
 package com.aem.genericutilities;
 
+/**
+ * Here all the type of exception needs to be declared
+ * @author mkarthik
+ *
+ */
 public enum Exceptions {
 	NULL_URL_EXCEPTION,
 	INVALID_URL_EXCEPTION,
