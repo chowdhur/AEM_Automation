@@ -55,6 +55,14 @@ public class CommonFunctionsExceptions extends Exception
 	{
 		System.out.println("The source and destination locator values are null..source: "+source+" destination: "+destination);
 	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review:
+	 * Description: This exception is thrown when element cannot be located due to invalid locator startegy of invalid locator
+	 * @param m_exeption
+	 * @param m_locator_type
+	 */
 	public CommonFunctionsExceptions(Exceptions m_exeption, String m_locator_type) 
 	{
 		if(m_exeption==Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION)
@@ -67,6 +75,13 @@ public class CommonFunctionsExceptions extends Exception
 		}
 		// TODO Auto-generated constructor stub
 	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review:
+	 * Description: This exception gets called when the string sent to locate the element is null
+	 * @param m_exeption
+	 */
 	public CommonFunctionsExceptions(Exceptions m_exeption) 
 	{
 		if(m_exeption==Exceptions.LOCATOR_VALUE_NULL_EXCEPTION)

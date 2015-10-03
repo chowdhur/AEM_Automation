@@ -166,6 +166,15 @@ public class CommonFunctions implements application_Constants
 		}
 		return m_bln_close_state;
 	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review: 
+	 * Description: This method is used to perform drag and drop operation
+	 * @param source : locator for source
+	 * @param destination : locator for destination
+	 * @return m_bln_dragAndDrop_status
+	 */
 	public boolean dragAndDrop(String source,String destination)
 	{
 		boolean m_bln_dragAndDrop_status=false;
@@ -224,6 +233,15 @@ public class CommonFunctions implements application_Constants
 		}
 		return m_bln_dragAndDrop_status;
 	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review: 
+	 * Description: This method is used to locate the element using different locating strategy
+	 * @param locator
+	 * @return m_WebElemnt_element
+	 * @throws CommonFunctionsExceptions
+	 */
 	private WebElement locateElement(String locator) throws CommonFunctionsExceptions
 	{
 		WebElement m_WebElemnt_element=null;
