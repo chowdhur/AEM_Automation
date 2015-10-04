@@ -13,5 +13,5 @@ package com.aem.application;
 public interface application_Constants 
 {
 	String interf_Webdriver_driverType="firefox";
-	long explicit_wait_value=7000;
+	long explicit_wait_value=10;
 }

@@ -9,6 +9,7 @@ package com.aem.constants;
  * Please add the decription for all the members declared and defined in this interface
  *
  */
-public interface Aem_Constants {
-
+public interface Aem_Constants
+{
+	static String logPath=System.getProperty("user.dir")+"/src/log4j.properties";
 }

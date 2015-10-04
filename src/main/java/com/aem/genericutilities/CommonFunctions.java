@@ -5,7 +5,9 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -16,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.aem.application.application_Constants;
+import com.aem.constants.Aem_Constants;
 
 /**
  * 
@@ -29,6 +32,9 @@ import com.aem.application.application_Constants;
 public class CommonFunctions implements application_Constants
 {
 	public static WebDriver glb_Webdriver_driver=null;
+	public Logger glb_Logger_commonlogs=null;
+	
+	
 	/**
 	 * @author mkarthik
 	 * date: October 2nd
@@ -40,14 +46,20 @@ public class CommonFunctions implements application_Constants
 	 */
 	public CommonFunctions()
 	{
+		glb_Logger_commonlogs=CommonFunctionsLogging.getLogObj(CommonFunctions.class);
+		
 		if(glb_Webdriver_driver==null)
 		{
 			String m_driver_type=interf_Webdriver_driverType;
+			glb_Logger_commonlogs.info("The webdriver to be initialized is : "+m_driver_type);
+			
 			switch(m_driver_type)
 			{
 				case "firefox": glb_Webdriver_driver=new FirefoxDriver();
+								glb_Logger_commonlogs.info("The webdriver is initialized...");
 								break;
-				default : System.out.println("invalid name of driver");
+								
+				default : glb_Logger_commonlogs.info("invalid name of driver");
 					  	  break;
 			}
 		}
@@ -100,11 +112,11 @@ public class CommonFunctions implements application_Constants
 		}
 		catch(CommonFunctionsExceptions e)
 		{
-			System.out.println(e.getMessage());	
+			glb_Logger_commonlogs.error(e.getMessage());	
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());	
+			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_openApp_Status;
 	}
@@ -127,8 +139,6 @@ public class CommonFunctions implements application_Constants
 		//add request header
 	    //con.setRequestProperty("User-Agent", USER_AGENT);
 		int m_responseCode = m_con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + m_url);
-		System.out.println("Response Code : " + m_responseCode);
 		m_con.disconnect();
 		return m_responseCode;
 	}
@@ -162,7 +172,7 @@ public class CommonFunctions implements application_Constants
 		}
 		catch(CommonFunctionsExceptions e)
 		{
-			System.out.println(e.getMessage());
+			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_close_state;
 	}
@@ -229,7 +239,7 @@ public class CommonFunctions implements application_Constants
 		}
 		catch(CommonFunctionsExceptions e)
 		{
-			System.out.println(e.getMessage());
+			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_dragAndDrop_status;
 	}
@@ -256,24 +266,68 @@ public class CommonFunctions implements application_Constants
 				
 				switch(m_locator_type)
 				{
-					case "xpath": wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(m_locator_value)));
-								  m_WebElemnt_element=glb_Webdriver_driver.findElement(By.xpath(m_locator_value));
-								  break;
+					case "xpath": try{
+										wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(m_locator_value)));
+										m_WebElemnt_element=glb_Webdriver_driver.findElement(By.xpath(m_locator_value));
+									 }
+									catch(TimeoutException e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}
+									catch(Exception e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}
+					 			  	break;
+								 
 						
-					case "id": wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
+					case "id": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.id(m_locator_value));
-					  			break;
+								}
+					catch(TimeoutException e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+					catch(Exception e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+								break;
 						
-					case "name": wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
+					case "name": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.name(m_locator_value));
-					             break;
+					}
+					catch(TimeoutException e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+					catch(Exception e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}break;
 						
-					case "class":wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
+					case "class":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.className(m_locator_value));
-					  			 break;
-					case "css":wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
+					}
+					catch(TimeoutException e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+					catch(Exception e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}break;
+					case "css":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.cssSelector(m_locator_value));
-					  			break;
+					}catch(TimeoutException e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+					catch(Exception e)
+					{
+						glb_Logger_commonlogs.error(e.getMessage());
+					}
+					break;
 						
 					default : Exceptions m_exeption=Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION;
 							  if(m_exeption==Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION)
@@ -293,7 +347,7 @@ public class CommonFunctions implements application_Constants
 		}
 		catch(CommonFunctionsExceptions e)
 		{
-			System.out.println(e.getMessage());
+			glb_Logger_commonlogs.error(e.getMessage());
 		}	
 		return m_WebElemnt_element;
 	}
