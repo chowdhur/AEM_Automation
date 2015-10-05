@@ -91,6 +91,7 @@ public class CommonFunctions implements application_Constants
 				{
 					glb_Webdriver_driver.get(url);
 					m_bln_openApp_Status=true;
+					glb_Logger_commonlogs.info("WebApplication opened..");
 				}
 				else
 				{
@@ -160,6 +161,7 @@ public class CommonFunctions implements application_Constants
 			{
 				glb_Webdriver_driver.close();
 				m_bln_close_state=true;
+				glb_Logger_commonlogs.info("Closed browser...");
 			}
 			else
 			{
@@ -211,6 +213,7 @@ public class CommonFunctions implements application_Constants
 					Actions m_Actions_action=new Actions(glb_Webdriver_driver);
 					m_Actions_action.dragAndDrop(m_WebElement_Source, m_WebElement_Destination).build().perform();
 					m_bln_dragAndDrop_status=true;
+					glb_Logger_commonlogs.info("Drag and Drop operation completed...");
 				}
 				else
 				{
@@ -269,6 +272,10 @@ public class CommonFunctions implements application_Constants
 					case "xpath": try{
 										wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(m_locator_value)));
 										m_WebElemnt_element=glb_Webdriver_driver.findElement(By.xpath(m_locator_value));
+										if(m_WebElemnt_element!=null)
+										{
+											glb_Logger_commonlogs.info("WebElement located with using xpath : "+m_locator_value);
+										}
 									 }
 									catch(TimeoutException e)
 									{
@@ -283,6 +290,10 @@ public class CommonFunctions implements application_Constants
 						
 					case "id": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.id(m_locator_value));
+								if(m_WebElemnt_element!=null)
+								{
+									glb_Logger_commonlogs.info("WebElement located with using id : "+m_locator_value);
+								}
 								}
 					catch(TimeoutException e)
 					{
@@ -296,6 +307,10 @@ public class CommonFunctions implements application_Constants
 						
 					case "name": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.name(m_locator_value));
+								 if(m_WebElemnt_element!=null)
+									{
+										glb_Logger_commonlogs.info("WebElement located with using name : "+m_locator_value);
+									}
 					}
 					catch(TimeoutException e)
 					{
@@ -308,6 +323,10 @@ public class CommonFunctions implements application_Constants
 						
 					case "class":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.className(m_locator_value));
+								 if(m_WebElemnt_element!=null)
+									{
+										glb_Logger_commonlogs.info("WebElement located with using classname : "+m_locator_value);
+									}
 					}
 					catch(TimeoutException e)
 					{
@@ -319,6 +338,10 @@ public class CommonFunctions implements application_Constants
 					}break;
 					case "css":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.cssSelector(m_locator_value));
+								if(m_WebElemnt_element!=null)
+								{
+									glb_Logger_commonlogs.info("WebElement located with using css : "+m_locator_value);
+								}
 					}catch(TimeoutException e)
 					{
 						glb_Logger_commonlogs.error(e.getMessage());
@@ -351,6 +374,15 @@ public class CommonFunctions implements application_Constants
 		}	
 		return m_WebElemnt_element;
 	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review: 
+	 * Description: This method is used to enter text to element based on locator
+	 * @param locator
+	 * @param text_Value
+	 * @return m_bln_enter_text_state
+	 */
 	public boolean enterText(String locator,String text_Value)
 	{
 		boolean m_bln_enter_text_state=false;
@@ -369,6 +401,7 @@ public class CommonFunctions implements application_Constants
 				{
 					m_WebElement_textfield.sendKeys(text_Value);
 					Assert.assertEquals(m_WebElement_textfield.getAttribute("value"),text_Value);
+					glb_Logger_commonlogs.info("Completed entering text to element...");
 					m_bln_enter_text_state=true;
 				}
 				else
@@ -386,5 +419,54 @@ public class CommonFunctions implements application_Constants
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_enter_text_state;
+	}
+	/**
+	 * @author mkarthik
+	 * date: October 2nd
+	 * date of review:
+	 * Description: This function is used to get the attribute of the element
+	 * @param locator
+	 * @param attribute
+	 * @param expected_Value
+	 * @return m_Str_attribute_value
+	 */
+	private String getAttributeOfElement(String locator,String attribute,String expected_Value)
+	{
+		String m_Str_attribute_value=null;
+		
+		WebElement m_WebElement_element = null;
+		
+		CommonFunctions m_CommonFunctions_commonFunctions=new CommonFunctions();
+		try
+		{
+			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
+			
+			if(locator!=null)
+			{
+				m_WebElement_element=m_CommonFunctions_commonFunctions.locateElement(locator);
+				if(m_WebElement_element!=null)
+				{
+					m_Str_attribute_value=m_WebElement_element.getAttribute(attribute);
+					if(m_Str_attribute_value!=null)
+					{
+						glb_Logger_commonlogs.info("Got attribute :"+attribute+" and value: "+m_Str_attribute_value+" for the specified element..");
+					}
+				}
+				else
+				{
+					Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+					if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
+					{
+						throw new CommonFunctionsExceptions(m_Exceptions,locator);
+					}
+				}
+			}
+		}
+		catch(CommonFunctionsExceptions e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		
+		return m_Str_attribute_value;
 	}
 }
