@@ -351,4 +351,40 @@ public class CommonFunctions implements application_Constants
 		}	
 		return m_WebElemnt_element;
 	}
+	public boolean enterText(String locator,String text_Value)
+	{
+		boolean m_bln_enter_text_state=false;
+		
+		WebElement m_WebElement_textfield = null;
+		
+		CommonFunctions m_CommonFunctions_commonFunctions=new CommonFunctions();
+		try
+		{
+			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
+			
+			if(locator!=null)
+			{
+				m_WebElement_textfield=m_CommonFunctions_commonFunctions.locateElement(locator);
+				if(m_WebElement_textfield!=null)
+				{
+					m_WebElement_textfield.sendKeys(text_Value);
+					Assert.assertEquals(m_WebElement_textfield.getAttribute("value"),text_Value);
+					m_bln_enter_text_state=true;
+				}
+				else
+				{
+					Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+					if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
+					{
+						throw new CommonFunctionsExceptions(m_Exceptions,locator);
+					}
+				}
+			}
+		}
+		catch(CommonFunctionsExceptions e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_enter_text_state;
+	}
 }
