@@ -19,7 +19,7 @@ public class CommonFunctionsExceptions extends Exception
 	 */
 	public CommonFunctionsExceptions(String url)
 	{
-		CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("The URL parameter is null.."+url);
+		CommonFunctions.glb_Logger_commonlogs.error("The URL parameter is null.."+url);
 	}
 	/**
 	 * @author mkarthik
@@ -31,7 +31,7 @@ public class CommonFunctionsExceptions extends Exception
 	 */
 	public CommonFunctionsExceptions(int b,String url)
 	{
-		CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("The URL parameter is.."+url+" and response code is: "+b);
+		CommonFunctions.glb_Logger_commonlogs.error("The URL parameter is.."+url+" and response code is: "+b);
 	}
 	/**
 	 * @author mkarthik
@@ -41,7 +41,7 @@ public class CommonFunctionsExceptions extends Exception
 	 */
 	public CommonFunctionsExceptions()
 	{
-		CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("The webdriver is not initialized and is null..");
+		CommonFunctions.glb_Logger_commonlogs.error("The webdriver is not initialized and is null..");
 	}
 	/**
 	 * @author mkarthik
@@ -53,7 +53,7 @@ public class CommonFunctionsExceptions extends Exception
 	 */
 	public CommonFunctionsExceptions(String source, String destination) 
 	{
-		CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("The source and destination locator values are null..source: "+source+" destination: "+destination);
+		CommonFunctions.glb_Logger_commonlogs.error("The source and destination locator values are null..source: "+source+" destination: "+destination);
 	}
 	/**
 	 * @author mkarthik
@@ -67,11 +67,11 @@ public class CommonFunctionsExceptions extends Exception
 	{
 		if(m_exeption==Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION)
 		{
-			CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("Invalid locator type being sent...Locator type sent: "+m_locator_type);
+			CommonFunctions.glb_Logger_commonlogs.error("Invalid locator type being sent...Locator type sent: "+m_locator_type);
 		}
 		else if (m_exeption==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION) 
 		{
-			CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("Could not not be located using locator : "+m_locator_type);
+			CommonFunctions.glb_Logger_commonlogs.error("Could not not be located using locator : "+m_locator_type);
 		}
 		// TODO Auto-generated constructor stub
 	}
@@ -86,7 +86,7 @@ public class CommonFunctionsExceptions extends Exception
 	{
 		if(m_exeption==Exceptions.LOCATOR_VALUE_NULL_EXCEPTION)
 		{
-			CommonFunctionsLogging.glb_Logger_commonFunctionLog.error("Locator value given is null...");
+			CommonFunctions.glb_Logger_commonlogs.error("Locator value given is null...");
 		}
 	}
 

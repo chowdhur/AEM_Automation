@@ -3,22 +3,19 @@ package com.aem.genericutilities;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.aem.application.application_Constants;
-import com.aem.constants.Aem_Constants;
+import com.aem.application.Application_Constants;
 
 /**
  * 
@@ -29,10 +26,10 @@ import com.aem.constants.Aem_Constants;
  * please add description for all the methods defined and declared in this class
  *
  */
-public class CommonFunctions implements application_Constants
+public class CommonFunctions implements Application_Constants
 {
 	public static WebDriver glb_Webdriver_driver=null;
-	public Logger glb_Logger_commonlogs=null;
+	public static Logger glb_Logger_commonlogs=null;
 	
 	
 	/**
@@ -46,7 +43,7 @@ public class CommonFunctions implements application_Constants
 	 */
 	public CommonFunctions()
 	{
-		glb_Logger_commonlogs=CommonFunctionsLogging.getLogObj(CommonFunctions.class);
+		glb_Logger_commonlogs=CommonLogging.getLogObj(CommonFunctions.class);
 		
 		if(glb_Webdriver_driver==null)
 		{
@@ -84,8 +81,8 @@ public class CommonFunctions implements application_Constants
 			Assert.assertNotNull(url);
 			if(url!=null)
 			{
-				CommonFunctions m_CommonFunctions=new CommonFunctions();
-				int_response_code=m_CommonFunctions.sendGet(url);
+				
+				int_response_code=sendGet(url);
 				Assert.assertEquals(int_response_code, 200,"The response code is not 200. Hence halting the execution");
 				if(int_response_code==200)
 				{
@@ -111,10 +108,7 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
-		{
-			glb_Logger_commonlogs.error(e.getMessage());	
-		}
+		
 		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
@@ -172,7 +166,7 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
+		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
@@ -194,7 +188,7 @@ public class CommonFunctions implements application_Constants
 		WebElement m_WebElement_Source = null;
 		WebElement m_WebElement_Destination = null;
 		
-		CommonFunctions m_CommonFunctions_commonFunctions=new CommonFunctions();
+		
 		try
 		{
 			Assert.assertNotNull(source, "The source element is null. Hence halting the execution...");
@@ -202,8 +196,8 @@ public class CommonFunctions implements application_Constants
 			
 			if((source!=null)&&(destination!=null))
 			{
-				m_WebElement_Source=m_CommonFunctions_commonFunctions.locateElement(source);
-				m_WebElement_Destination=m_CommonFunctions_commonFunctions.locateElement(destination);
+				m_WebElement_Source=locateElement(source);
+				m_WebElement_Destination=locateElement(destination);
 				
 				Assert.assertNotNull(m_WebElement_Source, "The source element is not located. Hence halting the execution..");
 				Assert.assertNotNull(m_WebElement_Destination, "The destination element is not located. Hence halting the execution..");
@@ -240,7 +234,7 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
+		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
@@ -288,22 +282,24 @@ public class CommonFunctions implements application_Constants
 					 			  	break;
 								 
 						
-					case "id": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
+					case "id": try{
+								wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.id(m_locator_value));
 								if(m_WebElemnt_element!=null)
 								{
 									glb_Logger_commonlogs.info("WebElement located with using id : "+m_locator_value);
 								}
 								}
-					catch(TimeoutException e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
-					catch(Exception e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
+								catch(TimeoutException e)
+								{
+									glb_Logger_commonlogs.error(e.getMessage());
+								}
+								catch(Exception e)
+								{
+									glb_Logger_commonlogs.error(e.getMessage());
+								}
 								break;
+								
 						
 					case "name": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.name(m_locator_value));
@@ -311,15 +307,15 @@ public class CommonFunctions implements application_Constants
 									{
 										glb_Logger_commonlogs.info("WebElement located with using name : "+m_locator_value);
 									}
-					}
-					catch(TimeoutException e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
-					catch(Exception e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}break;
+									}
+									catch(TimeoutException e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}
+									catch(Exception e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}break;
 						
 					case "class":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.className(m_locator_value));
@@ -327,37 +323,39 @@ public class CommonFunctions implements application_Constants
 									{
 										glb_Logger_commonlogs.info("WebElement located with using classname : "+m_locator_value);
 									}
-					}
-					catch(TimeoutException e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
-					catch(Exception e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}break;
+									}
+									catch(TimeoutException e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}
+									catch(Exception e)
+									{
+										glb_Logger_commonlogs.error(e.getMessage());
+									}break;
+					
+					
 					case "css":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.cssSelector(m_locator_value));
 								if(m_WebElemnt_element!=null)
 								{
 									glb_Logger_commonlogs.info("WebElement located with using css : "+m_locator_value);
 								}
-					}catch(TimeoutException e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
-					catch(Exception e)
-					{
-						glb_Logger_commonlogs.error(e.getMessage());
-					}
-					break;
+								}catch(TimeoutException e)
+								{
+									glb_Logger_commonlogs.error(e.getMessage());
+								}
+								catch(Exception e)
+								{
+									glb_Logger_commonlogs.error(e.getMessage());
+								}
+								break;
 						
 					default : Exceptions m_exeption=Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION;
 							  if(m_exeption==Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION)
 							  {	  
 								  throw new CommonFunctionsExceptions(m_exeption,m_locator_type);
 							  }
-				}
+					}
 			}
 			else
 			{
@@ -368,7 +366,7 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
+		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
 		}	
@@ -389,14 +387,14 @@ public class CommonFunctions implements application_Constants
 		
 		WebElement m_WebElement_textfield = null;
 		
-		CommonFunctions m_CommonFunctions_commonFunctions=new CommonFunctions();
+		
 		try
 		{
 			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
 			
 			if(locator!=null)
 			{
-				m_WebElement_textfield=m_CommonFunctions_commonFunctions.locateElement(locator);
+				m_WebElement_textfield=locateElement(locator);
 				if(m_WebElement_textfield!=null)
 				{
 					m_WebElement_textfield.sendKeys(text_Value);
@@ -414,7 +412,7 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
+		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
@@ -436,14 +434,14 @@ public class CommonFunctions implements application_Constants
 		
 		WebElement m_WebElement_element = null;
 		
-		CommonFunctions m_CommonFunctions_commonFunctions=new CommonFunctions();
+		
 		try
 		{
 			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
 			
 			if(locator!=null)
 			{
-				m_WebElement_element=m_CommonFunctions_commonFunctions.locateElement(locator);
+				m_WebElement_element=locateElement(locator);
 				if(m_WebElement_element!=null)
 				{
 					m_Str_attribute_value=m_WebElement_element.getAttribute(attribute);
@@ -462,11 +460,196 @@ public class CommonFunctions implements application_Constants
 				}
 			}
 		}
-		catch(CommonFunctionsExceptions e)
+		catch(Exception e)
 		{
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		
 		return m_Str_attribute_value;
 	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-6th
+	 * date of review: October-7th
+	 * Description: This function is used to get the text of an element
+	 * @param locator
+	 * @return String- m_Str_text_value
+	 */
+	private String getTextFromElement(String locator){
+		
+		WebElement m_WebElement_element = null;
+		
+		String m_Str_text_value = null;
+		
+		try{
+			Assert.assertNotNull(locator, "The locator passed is null. Hence halting the execution...");
+			
+			if(locator!=null){		
+				m_WebElement_element= locateElement(locator);
+				
+				if(m_WebElement_element != null){
+					m_Str_text_value = m_WebElement_element.getText();
+					glb_Logger_commonlogs.info("Got text from locator: " + locator);	
+				}else{
+					Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+					throw new CommonFunctionsExceptions(m_Exceptions,locator);
+				}
+			}
+		}
+		catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		
+		return m_Str_text_value;	
+	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-6th
+	 * date of review: October-7th
+	 * Description: This function is used to highlight an element
+	 * @param locator
+	 * @return boolean- m_bln_highlight
+	 */
+	private void highlightElement(String locator){
+		
+		WebElement m_WebElement_element = null;
+		//boolean m_bln_highlight = false;
+		
+		JavascriptExecutor js = (JavascriptExecutor) glb_Webdriver_driver;
+		
+		try{
+			Assert.assertNotNull(locator, "The locator passed is null. Hence halting the execution...");
+			
+			if(locator!=null){
+				m_WebElement_element= locateElement(locator);
+				
+				if(m_WebElement_element != null){
+					js.executeScript("arguments[0].setAttribute('style', arguments[1]);", m_WebElement_element, "border: 3px solid red;");
+					js.executeScript("arguments[0].setAttribute('style', arguments[1]);", m_WebElement_element, "");
+					//m_bln_highlight = true;
+				}else{
+					Exceptions m_exception = Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+					throw new CommonFunctionsExceptions(m_exception, locator);
+				}
+			}
+		}catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-7th
+	 * date of review: October-8th
+	 * Description: This function is used to compare two texts
+	 * @param text1, text2
+	 * @return boolean- m_bln_compare
+	 */
+	public boolean compareTexts(String v_text1, String v_text2){
+		boolean m_bln_compare = false;
+		try{
+			Assert.assertNotNull(v_text1, "Text passed is null. Hence halting the execution...");
+			Assert.assertNotNull(v_text2, "Text passed is null. Hence halting the execution...");
+			m_bln_compare = v_text1.equals(v_text2);
+			if(m_bln_compare == false){
+				glb_Logger_commonlogs.error("Text - " + v_text1 + " and Text- " + v_text2 + " did not match... ");
+			}
+		}catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_compare;
+		
+	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-7th
+	 * date of review: October-8th
+	 * Description: This function is used to get text from an element and compare with expected text
+	 * @param locator, expectedText
+	 * @return boolean- m_bln_compareText
+	 */
+	public boolean getTextFromElementAndCompare(String locator, String expectedText){
+		
+		String m_Str_webelement_text = null;
+		boolean m_bln_compareText = false;
+		
+		try{
+			Assert.assertNotNull(locator, "The locator passed is null. Hence halting the execution...");
+			Assert.assertNotNull(expectedText, "Text passed is null. Hence halting the execution...");
+			m_Str_webelement_text = getTextFromElement(locator);
+			m_bln_compareText = compareTexts(m_Str_webelement_text, expectedText);
+		}catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_compareText;
+		
+	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-7th
+	 * date of review: October-8th
+	 * Description: This function is used to check whether a locator is present or not
+	 * @param locator
+	 * @return boolean- m_bln_element_presence
+	 */
+	public boolean verifyElementPresent(String locator){
+		
+		WebElement m_WebElement_element = null;
+		boolean m_bln_element_presence = false;
+		
+		try{
+			Assert.assertNotNull(locator, "The locator passed is null. Hence halting the execution...");
+			m_WebElement_element = locateElement(locator);
+			
+			if(m_WebElement_element != null){
+				glb_Logger_commonlogs.info("Successfully locate element: " + locator);
+				m_bln_element_presence = true;
+			}else{
+				Exceptions m_exception = Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+				throw new CommonFunctionsExceptions(m_exception, locator);
+			}
+		}catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_element_presence;
+	}
+	
+	/**
+	 * @author Rajdeep
+	 * date: October-8th
+	 * date of review: October-8th
+	 * Description: This function is used to move mouse over an element
+	 * @param locator
+	 * @return boolean- m_bln_element_mouseOver
+	 */
+	private boolean mouseOverElement(String locator){
+		boolean m_bln_element_mouseOver = false;
+		WebElement m_WebElement_element = null;
+		
+		try{
+			Assert.assertNotNull(locator, "The locator passed is null. Hence halting the execution...");
+			m_WebElement_element = locateElement(locator);
+			
+			if(m_WebElement_element != null){
+				Actions act = new Actions(glb_Webdriver_driver);
+				act.moveToElement(m_WebElement_element).build().perform();
+				glb_Logger_commonlogs.info("Mouse successfully move to element: " + locator);
+				m_bln_element_mouseOver = true;
+			}
+			else{
+				Exceptions m_exception = Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+				throw new CommonFunctionsExceptions(m_exception, locator);
+			}
+		}catch(Exception e){
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+			
+		return m_bln_element_mouseOver;
+	}
+	
+	
 }

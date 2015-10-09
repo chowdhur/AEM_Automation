@@ -19,16 +19,16 @@ import com.aem.constants.Aem_Constants;
  * please add description for all the methods defined and declared in this class
  *
  */
-public class CommonFunctionsLogging 
+public class CommonLogging 
 {
 	public static Logger glb_Logger_commonFunctionLog=null;
 	
 	public static Logger getLogObj(Class className)
 	{
-		if(glb_Logger_commonFunctionLog==null)
-		{
 			glb_Logger_commonFunctionLog=Logger.getLogger(className);
 			Properties m_Properties_props = new Properties();
+			m_Properties_props.setProperty("log4j.appender.File.file", Aem_Constants.logFileDestPath);
+			
 			try {
 				m_Properties_props.load(new FileInputStream(Aem_Constants.logPath));
 			} catch (FileNotFoundException e) {
@@ -39,7 +39,7 @@ public class CommonFunctionsLogging
 				e.printStackTrace();
 			}
 			PropertyConfigurator.configure(m_Properties_props);
-		}
+		
 		return glb_Logger_commonFunctionLog;
 	}
 }

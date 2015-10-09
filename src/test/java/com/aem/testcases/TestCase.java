@@ -1,9 +1,6 @@
 package com.aem.testcases;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.DataProvider;
+
 
 /**
  * 
@@ -14,23 +11,17 @@ import org.testng.annotations.DataProvider;
  */
 
 public class TestCase {
-  @Test(dataProvider = "dp")
-  public void f(Integer n, String s) {
-  }
-  @BeforeMethod
-  public void beforeMethod() {
-  }
+	public static void main(String a[]){
+		A aa = new A();
+		aa.print();
+	}
+}
 
-  @AfterMethod
-  public void afterMethod() {
-  }
-
-
-  @DataProvider
-  public Object[][] dp() {
-    return new Object[][] {
-      new Object[] { 1, "a" },
-      new Object[] { 2, "b" },
-    };
-  }
+class A{
+	public void print(){
+		System.out.println("Inside Print");
+	}
+	private void test(){
+		System.out.println("Inside Test");
+	}
 }

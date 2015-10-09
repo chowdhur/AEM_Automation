@@ -12,4 +12,5 @@ package com.aem.constants;
 public interface Aem_Constants
 {
 	static String logPath=System.getProperty("user.dir")+"/src/log4j.properties";
+	static String logFileDestPath = System.getProperty("user.dir")+"/logs/Execution.log";
 }
