@@ -72,7 +72,7 @@ public class CommonFunctions implements Application_Constants
 	 * @throws CommonFunctionsExceptions
 	 */
 	
-	public boolean openApp(String url) throws CommonFunctionsExceptions
+	public boolean openApp(String object,String url) throws CommonFunctionsExceptions
 	{
 		boolean m_bln_openApp_Status = false;
 		int int_response_code = 0;
@@ -82,7 +82,7 @@ public class CommonFunctions implements Application_Constants
 			if(url!=null)
 			{
 				
-				int_response_code=sendGet(url);
+				int_response_code=sendGet("",url);
 				Assert.assertEquals(int_response_code, 200,"The response code is not 200. Hence halting the execution");
 				if(int_response_code==200)
 				{
@@ -124,7 +124,7 @@ public class CommonFunctions implements Application_Constants
 	 * @return m_responseCode : status code of the link that has been currently hit
 	 * @throws Exception
 	 */
-	private int sendGet(String urls) throws Exception 
+	private int sendGet(String object,String urls) throws Exception 
 	{
 		String m_url = urls; 
 		URL m_obj = new URL(m_url);
@@ -146,7 +146,7 @@ public class CommonFunctions implements Application_Constants
 	 * @throws CommonFunctionsExceptions
 	 * @return
 	 */
-	public boolean closeBrowser() throws CommonFunctionsExceptions
+	public boolean closeBrowser(String object,String testdata) throws CommonFunctionsExceptions
 	{
 		boolean m_bln_close_state=false;
 		try
@@ -181,29 +181,47 @@ public class CommonFunctions implements Application_Constants
 	 * @param destination : locator for destination
 	 * @return m_bln_dragAndDrop_status
 	 */
-	public boolean dragAndDrop(String source,String destination)
+	public boolean dragAndDrop(String v_object,String v_testdata)
 	{
 		boolean m_bln_dragAndDrop_status=false;
 		
 		WebElement m_WebElement_Source = null;
 		WebElement m_WebElement_Destination = null;
+		String [] locator=null;
+		String m_str_source=null;
+		String m_str_destination=null;
 		
+		Assert.assertNotNull(v_object,"The object passes is null");
+		locator=splitLocators(v_object);
 		
+		int m_int_size=locator.length;
+		
+		if(m_int_size==2)
+		{
+			m_str_source=locator[0];
+			m_str_destination=locator[1];
+		}
+		else
+		{
+			glb_Logger_commonlogs.info("In dragAndDrop()");
+			glb_Logger_commonlogs.info("Expected only 2 elements. But number of elements found: "+m_int_size);
+		}
 		try
 		{
-			Assert.assertNotNull(source, "The source element is null. Hence halting the execution...");
-			Assert.assertNotNull(destination, "The destination element is null. Hence halting the execution...");
+			Assert.assertNotNull(m_str_source, "The source element is null. Hence halting the execution...");
+			Assert.assertNotNull(m_str_destination, "The destination element is null. Hence halting the execution...");
 			
-			if((source!=null)&&(destination!=null))
+			if((m_str_source!=null)&&(m_str_destination!=null))
 			{
-				m_WebElement_Source=locateElement(source);
-				m_WebElement_Destination=locateElement(destination);
+				m_WebElement_Source=locateElement(m_str_source);
+				m_WebElement_Destination=locateElement(m_str_destination);
 				
 				Assert.assertNotNull(m_WebElement_Source, "The source element is not located. Hence halting the execution..");
 				Assert.assertNotNull(m_WebElement_Destination, "The destination element is not located. Hence halting the execution..");
 				
 				if((m_WebElement_Source!=null)&&(m_WebElement_Destination!=null))
 				{
+					
 					Actions m_Actions_action=new Actions(glb_Webdriver_driver);
 					m_Actions_action.dragAndDrop(m_WebElement_Source, m_WebElement_Destination).build().perform();
 					m_bln_dragAndDrop_status=true;
@@ -216,11 +234,11 @@ public class CommonFunctions implements Application_Constants
 					{
 						if(m_WebElement_Source==null)
 						{
-							throw new CommonFunctionsExceptions(m_Exceptions,source);
+							throw new CommonFunctionsExceptions(m_Exceptions,m_str_source);
 						}
 						else if(m_WebElement_Destination==null)
 						{
-							throw new CommonFunctionsExceptions(m_Exceptions,destination);
+							throw new CommonFunctionsExceptions(m_Exceptions,m_str_destination);
 						}
 					}
 				}
@@ -230,7 +248,7 @@ public class CommonFunctions implements Application_Constants
 				Exceptions m_exceptions=Exceptions.SOURCE_DESTINATION_VALUES_NULL_EXCEPTION;
 				if(m_exceptions==Exceptions.SOURCE_DESTINATION_VALUES_NULL_EXCEPTION)
 				{
-					throw new CommonFunctionsExceptions(source,destination);
+					throw new CommonFunctionsExceptions(m_str_source,m_str_destination);
 				}
 			}
 		}
@@ -381,39 +399,60 @@ public class CommonFunctions implements Application_Constants
 	 * @param text_Value
 	 * @return m_bln_enter_text_state
 	 */
-	public boolean enterText(String locator,String text_Value)
+	public boolean enterText(String v_str_object,String v_text_Value)
 	{
 		boolean m_bln_enter_text_state=false;
 		
 		WebElement m_WebElement_textfield = null;
 		
+		String [] locator=null;
+		
+		String m_str_locator=null;
+		
+		Assert.assertNotNull(v_str_object,"The object passes is null");
+		locator=splitLocators(v_str_object);
+		
+		int m_int_size=locator.length;
+		
+		if(m_int_size==1)
+		{
+			m_str_locator=locator[0];
+		}
+		else
+		{
+			glb_Logger_commonlogs.info("In enterText()");
+			glb_Logger_commonlogs.info("Expected only 1 element. But number of elements found: "+m_int_size);
+		}
 		
 		try
 		{
-			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
+			Assert.assertNotNull(m_str_locator, "The value passed is null. Hence halting the execution...");
 			
 			if(locator!=null)
 			{
-				m_WebElement_textfield=locateElement(locator);
+				m_WebElement_textfield=locateElement(m_str_locator);
 				if(m_WebElement_textfield!=null)
 				{
-					m_WebElement_textfield.sendKeys(text_Value);
-					Assert.assertEquals(m_WebElement_textfield.getAttribute("value"),text_Value);
+					m_WebElement_textfield.sendKeys(v_text_Value);
+					Assert.assertEquals(m_WebElement_textfield.getAttribute("value"),v_text_Value);
+					glb_Logger_commonlogs.info("In enterText()");
 					glb_Logger_commonlogs.info("Completed entering text to element...");
 					m_bln_enter_text_state=true;
 				}
 				else
 				{
+					glb_Logger_commonlogs.info("In enterText()");
 					Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
 					if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
 					{
-						throw new CommonFunctionsExceptions(m_Exceptions,locator);
+						throw new CommonFunctionsExceptions(m_Exceptions,m_str_locator);
 					}
 				}
 			}
 		}
 		catch(Exception e)
 		{
+			glb_Logger_commonlogs.info("In enterText()");
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_enter_text_state;
@@ -428,40 +467,85 @@ public class CommonFunctions implements Application_Constants
 	 * @param expected_Value
 	 * @return m_Str_attribute_value
 	 */
-	private String getAttributeOfElement(String locator,String attribute,String expected_Value)
+	private String getAttributeOfElement(String v_str_locator,String v_str_expectedAttribute_value)
 	{
 		String m_Str_attribute_value=null;
 		
 		WebElement m_WebElement_element = null;
 		
+		String [] locators=null;
+		String [] testdata=null;
+		String attribute=null;
+		String value=null; 
 		
+		String m_str_locators=null;
+		
+		
+		testdata=v_str_expectedAttribute_value.split(",");
+		Assert.assertNotNull(testdata,"There are no testdata passed..");
+		
+		int m_int_size_testdata=testdata.length;
+		
+		if(m_int_size_testdata==1)
+		{
+			glb_Logger_commonlogs.info("In getAttributeOfElement()");
+			glb_Logger_commonlogs.info("Expected one attribute and value for an element. But only one string is passed");
+		}
+		else if(m_int_size_testdata==2)
+		{
+			attribute=testdata[0];
+			value=testdata[1];
+		}
+		else
+		{
+			glb_Logger_commonlogs.info("In getAttributeOfElement()");
+			glb_Logger_commonlogs.info("Expected one attribute and value for an element. But number of string passed may be more.");
+		}
+		
+		Assert.assertNotNull(v_str_locator,"The object passed is null");
+		locators=splitLocators(v_str_locator);
+		
+		int m_int_size=locators.length;
+		
+		if(m_int_size==1)
+		{
+			m_str_locators=locators[0];
+		}
+		else
+		{
+			glb_Logger_commonlogs.info("In getAttributeOfElement()");
+			glb_Logger_commonlogs.info("Expected only 1 element. But number of elements found: "+m_int_size);
+		}
 		try
 		{
-			Assert.assertNotNull(locator, "The value passed is null. Hence halting the execution...");
+			Assert.assertNotNull(m_str_locators, "The value passed is null. Hence halting the execution...");
 			
-			if(locator!=null)
+			if(m_str_locators!=null)
 			{
-				m_WebElement_element=locateElement(locator);
+				m_WebElement_element=locateElement(m_str_locators);
 				if(m_WebElement_element!=null)
 				{
 					m_Str_attribute_value=m_WebElement_element.getAttribute(attribute);
 					if(m_Str_attribute_value!=null)
 					{
+						glb_Logger_commonlogs.info("In getAttributeOfElement()");
 						glb_Logger_commonlogs.info("Got attribute :"+attribute+" and value: "+m_Str_attribute_value+" for the specified element..");
 					}
 				}
 				else
 				{
+					glb_Logger_commonlogs.info("In getAttributeOfElement()");
 					Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
 					if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
 					{
-						throw new CommonFunctionsExceptions(m_Exceptions,locator);
+						throw new CommonFunctionsExceptions(m_Exceptions,m_str_locators);
 					}
 				}
 			}
 		}
 		catch(Exception e)
 		{
+			glb_Logger_commonlogs.info("In getAttributeOfElement()");
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		
@@ -650,6 +734,111 @@ public class CommonFunctions implements Application_Constants
 			
 		return m_bln_element_mouseOver;
 	}
+	/**
+	 *  @author mkarthik
+	 * date: October-20th
+	 * date of review: 
+	 * Description: This function is used to split the string and return the locators if more than one elements are passed in single string
+	 * @param v_object
+	 * @return locators
+	 */
 	
-	
+	private String[] splitLocators(String v_object)
+	{
+		String [] locators=null;
+		
+		try{	
+			if(v_object!=null)
+			{
+				if(v_object.contains("<>"))
+				{
+					glb_Logger_commonlogs.info("In splitText()");
+					glb_Logger_commonlogs.info("More than one locator exists...");
+					locators=v_object.split("<>");
+				}
+				else
+				{
+					glb_Logger_commonlogs.info("In splitText()");
+					glb_Logger_commonlogs.info("Only one locator exists..");
+					locators=new String[1];
+					locators[0]=v_object;
+				}
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In splitText()");
+				Exceptions m_exceptions=Exceptions.NULL_VALUE_PASSED_EXCEPTION;
+				throw new CommonFunctionsExceptions(m_exceptions);
+			}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In splitText()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return locators;
+	}
+	private String[] splitTestData(String v_object)
+	{
+		String [] testdata=null;
+		
+		try{	
+			if(v_object!=null)
+			{
+				if(v_object.contains(","))
+				{
+					glb_Logger_commonlogs.info("In splitTestData()");
+					glb_Logger_commonlogs.info("More than one testdata exists...");
+					testdata=v_object.split(",");
+				}
+				else
+				{
+					glb_Logger_commonlogs.info("In splitTestData()");
+					glb_Logger_commonlogs.info("Only one testdata exists..");
+					testdata=new String[1];
+					testdata[0]=v_object;
+				}
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In splitTestData()");
+				Exceptions m_exceptions=Exceptions.NULL_VALUE_PASSED_EXCEPTION;
+				throw new CommonFunctionsExceptions(m_exceptions);
+			}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In splitTestData()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return testdata;
+	}
+	public boolean getAttributeAndCompare(String v_object,String v_expectedAttributeValue)
+	{
+		boolean m_bln_attribute_compare=false;
+		String m_str_attribute=null;
+		String m_str_value=null; 
+		String []testData=null;
+		
+		try{
+			testData=v_expectedAttributeValue.split(",");
+			m_str_attribute=testData[0];
+			m_str_value=testData[1];
+			String m_act_value=getAttributeOfElement(v_object, v_expectedAttributeValue);
+		
+			if(compareTexts(m_str_value, m_act_value))
+			{
+				m_bln_attribute_compare=true;
+				glb_Logger_commonlogs.info("In getAttributeAndCompare()");
+				glb_Logger_commonlogs.info("Attribute value matching...");
+			}
+			
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In getAttributeAndCompare()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_attribute_compare;
+	}
 }
