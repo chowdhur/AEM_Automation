@@ -14,4 +14,6 @@ public interface Application_Constants
 {
 	String interf_Webdriver_driverType="firefox";
 	long explicit_wait_value=10;
+	long implict_wait_value=10;
+	long page_load_timeout_value=10;
 }

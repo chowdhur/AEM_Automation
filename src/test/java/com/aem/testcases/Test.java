@@ -1,5 +1,7 @@
 package com.aem.testcases;
 
+import org.openqa.selenium.By;
+
 import com.aem.genericutilities.CommonFunctions;
 import com.aem.genericutilities.CommonFunctionsExceptions;
 
@@ -14,9 +16,14 @@ public class Test {
 		// TODO Auto-generated method stub
 		try{
 			comm=new CommonFunctions();
-		comm.openApp("","https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=default&service=mail&sacu=1&scc=1&passive=1209600&acui=0#Email=karthik.m.manjunath%40gmail.com");
+		comm.navigateToLink("","https://login.yahoo.com/");
+		comm.refreshPage();
 		//comm.enterText("xpath:.//*[@id='Passwd']","admin");
-		comm.getAttributeAndCompare("xpath:.//*[@id='Passwd']","name,Passwd");
+		//comm.getAttributeAndCompare("xpath:.//*[@id='Passwd']","name,Passwd");
+		//comm.isElementDisplayed("xpath:.//*[@id='Passssswd']", "");
+		//comm.isElementEnabled("xpath:.//*[@id='Passswd']", "");
+    	//comm.glb_Webdriver_driver.findElement(By.xpath("//label[contains(text(),'Keep me')]/preceding-sibling::input[@class='checkbox']")).click();
+    	System.out.println("state"+ comm.isElementSelected("xpath://input[@class='checkbox']",""));
 		
 		System.out.println("done..");
 		}

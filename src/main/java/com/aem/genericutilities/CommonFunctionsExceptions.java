@@ -92,6 +92,10 @@ public class CommonFunctionsExceptions extends Exception
 		{
 			CommonFunctions.glb_Logger_commonlogs.error("NULL Value passed...");
 		}
+		else if(m_exeption==Exceptions.LOCATOR_FORMAT_EXCEPTION)
+		{
+			CommonFunctions.glb_Logger_commonlogs.error("Locator string is not of the expected format...");
+		}
 	}
 
 		

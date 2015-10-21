@@ -2,6 +2,7 @@ package com.aem.genericutilities;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -14,8 +15,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import com.aem.application.Application_Constants;
+import com.aem.constants.Aem_Constants;
 
 /**
  * 
@@ -53,6 +56,7 @@ public class CommonFunctions implements Application_Constants
 			switch(m_driver_type)
 			{
 				case "firefox": glb_Webdriver_driver=new FirefoxDriver();
+								implicitwait();
 								glb_Logger_commonlogs.info("The webdriver is initialized...");
 								break;
 								
@@ -87,6 +91,7 @@ public class CommonFunctions implements Application_Constants
 				if(int_response_code==200)
 				{
 					glb_Webdriver_driver.get(url);
+					waitForPageToLoad();
 					m_bln_openApp_Status=true;
 					glb_Logger_commonlogs.info("WebApplication opened..");
 				}
@@ -273,15 +278,17 @@ public class CommonFunctions implements Application_Constants
 		try{
 			if(locator!=null)
 			{
-				String [] m_locator=locator.split(":");
-				String m_locator_type=m_locator[0];
-				String m_locator_value=m_locator[1];
-				
-				WebDriverWait wait=new WebDriverWait(glb_Webdriver_driver,explicit_wait_value);
-				
-				switch(m_locator_type)
+				if(locator.contains(":"))
 				{
-					case "xpath": try{
+					String [] m_locator=locator.split(":");
+					String m_locator_type=m_locator[0];
+					String m_locator_value=m_locator[1];
+				
+					WebDriverWait wait=new WebDriverWait(glb_Webdriver_driver,explicit_wait_value);
+				
+					switch(m_locator_type)
+					{
+						case "xpath": try{
 										wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(m_locator_value)));
 										m_WebElemnt_element=glb_Webdriver_driver.findElement(By.xpath(m_locator_value));
 										if(m_WebElemnt_element!=null)
@@ -300,7 +307,7 @@ public class CommonFunctions implements Application_Constants
 					 			  	break;
 								 
 						
-					case "id": try{
+						case "id": try{
 								wait.until(ExpectedConditions.presenceOfElementLocated(By.id(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.id(m_locator_value));
 								if(m_WebElemnt_element!=null)
@@ -319,7 +326,7 @@ public class CommonFunctions implements Application_Constants
 								break;
 								
 						
-					case "name": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
+						case "name": try{wait.until(ExpectedConditions.presenceOfElementLocated(By.name(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.name(m_locator_value));
 								 if(m_WebElemnt_element!=null)
 									{
@@ -335,7 +342,7 @@ public class CommonFunctions implements Application_Constants
 										glb_Logger_commonlogs.error(e.getMessage());
 									}break;
 						
-					case "class":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
+						case "class":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.className(m_locator_value)));
 								 m_WebElemnt_element=glb_Webdriver_driver.findElement(By.className(m_locator_value));
 								 if(m_WebElemnt_element!=null)
 									{
@@ -352,7 +359,7 @@ public class CommonFunctions implements Application_Constants
 									}break;
 					
 					
-					case "css":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
+						case "css":try{wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(m_locator_value)));
 								m_WebElemnt_element=glb_Webdriver_driver.findElement(By.cssSelector(m_locator_value));
 								if(m_WebElemnt_element!=null)
 								{
@@ -368,12 +375,19 @@ public class CommonFunctions implements Application_Constants
 								}
 								break;
 						
-					default : Exceptions m_exeption=Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION;
+						default : Exceptions m_exeption=Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION;
 							  if(m_exeption==Exceptions.INVALID_LOCATOR_TYPE_EXCEPTION)
 							  {	  
 								  throw new CommonFunctionsExceptions(m_exeption,m_locator_type);
 							  }
 					}
+				}
+				else
+				{
+					Exceptions m_Exceptions=Exceptions.LOCATOR_FORMAT_EXCEPTION;
+					throw new CommonFunctionsExceptions(m_Exceptions);
+					
+				}
 			}
 			else
 			{
@@ -428,7 +442,7 @@ public class CommonFunctions implements Application_Constants
 		{
 			Assert.assertNotNull(m_str_locator, "The value passed is null. Hence halting the execution...");
 			
-			if(locator!=null)
+			if(m_str_locator!=null)
 			{
 				m_WebElement_textfield=locateElement(m_str_locator);
 				if(m_WebElement_textfield!=null)
@@ -778,6 +792,14 @@ public class CommonFunctions implements Application_Constants
 		}
 		return locators;
 	}
+	/**
+	 * @author mkarthik
+	 * date: October-20th
+	 * date of review: 
+	 * Description: This function is used to split the string and return the testdata if more than one elements are passed in single string
+	 * @param v_object
+	 * @return
+	 */
 	private String[] splitTestData(String v_object)
 	{
 		String [] testdata=null;
@@ -813,6 +835,15 @@ public class CommonFunctions implements Application_Constants
 		}
 		return testdata;
 	}
+	/**
+	 *  @author mkarthik
+	 * date: October-20th
+	 * date of review: 
+	 * Description: This function is used to find the attribute and value for an element and compare it with exected attibute value
+	 * @param v_object
+	 * @param v_expectedAttributeValue
+	 * @return m_bln_attribute_compare
+	 */
 	public boolean getAttributeAndCompare(String v_object,String v_expectedAttributeValue)
 	{
 		boolean m_bln_attribute_compare=false;
@@ -821,7 +852,7 @@ public class CommonFunctions implements Application_Constants
 		String []testData=null;
 		
 		try{
-			testData=v_expectedAttributeValue.split(",");
+			testData=v_expectedAttributeValue.split("=");
 			m_str_attribute=testData[0];
 			m_str_value=testData[1];
 			String m_act_value=getAttributeOfElement(v_object, v_expectedAttributeValue);
@@ -840,5 +871,315 @@ public class CommonFunctions implements Application_Constants
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 		return m_bln_attribute_compare;
+	}
+	/**
+	 * @author mkarthik
+	 * date: October-21st
+	 * date of review: 
+	 * Description: This function is used to verify if the specified web element is displayed
+	 * @param v_str_object
+	 * @param v_str_testData
+	 * @return m_bln_display
+	 */
+	public boolean isElementDisplayed(String v_str_object,String v_str_testData)
+	{
+		boolean m_bln_display=false;
+		WebElement m_WebElement_element = null;
+		
+		String [] locators=null;
+		String m_str_locator=null;
+		
+		
+		try{
+			Assert.assertNotNull(v_str_object,"The object passes is null");
+			locators=splitLocators(v_str_object);
+			
+			int m_int_size=locators.length;
+			
+			if(m_int_size==1)
+			{
+				m_str_locator=locators[0];
+				Assert.assertNotNull(m_str_locator, "The value passed is null. Hence halting the execution...");
+				
+				if(m_str_locator!=null)
+				{
+					m_WebElement_element=locateElement(m_str_locator);
+					if(m_WebElement_element!=null)
+					{
+						m_bln_display=m_WebElement_element.isDisplayed();
+						
+						glb_Logger_commonlogs.info("In isElementDisplayed()");
+						if(m_bln_display==true)
+						{
+						glb_Logger_commonlogs.info("Element is displayed..");
+						}
+					}
+					else
+					{
+						glb_Logger_commonlogs.info("In isElementDisplayed()");
+						Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+						if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
+						{
+							throw new CommonFunctionsExceptions(m_Exceptions,m_str_locator);
+						}
+					}
+				
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In isElementDisplayed()");
+				glb_Logger_commonlogs.info("Expected only 1 element. But number of elements found: "+m_int_size);
+			}
+		}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In isElementDisplayed()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_display;
+}
+	/**
+	 * @author mkarthik
+	 * date: October-21st
+	 * date of review: 
+	 * Description: This function is used to verify if the specified web element is enabled
+	 * @param v_str_object
+	 * @param v_str_testData
+	 * @return m_bln_enabled
+	 */
+	public boolean isElementEnabled(String v_str_object,String v_str_testData)
+	{
+		boolean m_bln_enabled=false;
+		WebElement m_WebElement_element = null;
+		
+		String [] locators=null;
+		String m_str_locator=null;
+		
+		
+		try{
+			Assert.assertNotNull(v_str_object,"The object passes is null");
+			locators=splitLocators(v_str_object);
+			
+			int m_int_size=locators.length;
+			
+			if(m_int_size==1)
+			{
+				m_str_locator=locators[0];
+				Assert.assertNotNull(m_str_locator, "The value passed is null. Hence halting the execution...");
+				
+				if(m_str_locator!=null)
+				{
+					m_WebElement_element=locateElement(m_str_locator);
+					if(m_WebElement_element!=null)
+					{
+						m_bln_enabled=m_WebElement_element.isEnabled();
+						
+						glb_Logger_commonlogs.info("In isElementEnabled()");
+						if(m_bln_enabled==true)
+						{
+							glb_Logger_commonlogs.info("Element is Enabled..");
+						}
+					}
+					else
+					{
+						glb_Logger_commonlogs.info("In isElementEnabled()");
+						Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+						if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
+						{
+							throw new CommonFunctionsExceptions(m_Exceptions,m_str_locator);
+						}
+					}
+				
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In isElementEnabled()");
+				glb_Logger_commonlogs.info("Expected only 1 element. But number of elements found: "+m_int_size);
+			}
+		}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In isElementEnabled()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_enabled;
+}
+	/**
+	 * @author mkarthik
+	 * date: October-21st
+	 * date of review: 
+	 * Description: This function is used to verify if the specified web element is selected
+	 * @param v_str_object
+	 * @param v_str_testData
+	 * @return m_bln_enabled
+	 */
+	public boolean isElementSelected(String v_str_object,String v_str_testData)
+	{
+		boolean m_bln_selected=false;
+		WebElement m_WebElement_element = null;
+		
+		String [] locators=null;
+		String m_str_locator=null;
+		
+		
+		try{
+			Assert.assertNotNull(v_str_object,"The object passes is null");
+			locators=splitLocators(v_str_object);
+			
+			int m_int_size=locators.length;
+			
+			if(m_int_size==1)
+			{
+				m_str_locator=locators[0];
+				Assert.assertNotNull(m_str_locator, "The value passed is null. Hence halting the execution...");
+				
+				if(m_str_locator!=null)
+				{
+					m_WebElement_element=locateElement(m_str_locator);
+					if(m_WebElement_element!=null)
+					{
+						m_bln_selected=m_WebElement_element.isSelected();
+						
+						glb_Logger_commonlogs.info("In isElementSelected()");
+						if(m_bln_selected==true)
+						{
+							glb_Logger_commonlogs.info("Element is Selected..");
+						}
+					}
+					else
+					{
+						glb_Logger_commonlogs.info("In isElementSelected()");
+						Exceptions m_Exceptions=Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION;
+						if(m_Exceptions==Exceptions.COULD_NOT_LOCATE_ELEMENT_EXCEPTION)
+						{
+							throw new CommonFunctionsExceptions(m_Exceptions,m_str_locator);
+						}
+					}
+				
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In isElementSelected()");
+				glb_Logger_commonlogs.info("Expected only 1 element. But number of elements found: "+m_int_size);
+			}
+		}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.info("In isElementSelected()");
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_selected;
+}
+	/**
+	 * @author mkarthik
+	 * date: October-21st
+	 * date of review: 
+	 * Description: This function is navigate to the specified link
+	 * @param v_str_object
+	 * @param v_str_testdata
+	 * @return m_bln_navigate
+	 */
+
+	public boolean navigateToLink(String v_str_object,String v_str_testdata)
+	{
+		boolean m_bln_navigate=false;
+		int m_int_status = 0;
+		try
+		{
+			if(v_str_testdata!=null)
+			{
+				m_int_status=sendGet("", v_str_testdata);
+				Assert.assertEquals(m_int_status, 200,"The response code is not 200");
+				if(m_int_status==200)
+				{
+					glb_Webdriver_driver.navigate().to(v_str_testdata);
+					waitForPageToLoad();
+					m_bln_navigate=true;
+					glb_Logger_commonlogs.info("In navigateToLink()");
+					glb_Logger_commonlogs.info("Navigated to page..");
+				}
+				else
+				{
+					glb_Logger_commonlogs.info("In navigateToLink()");
+					Exceptions m_exceptions=Exceptions.INVALID_URL_EXCEPTION;
+					if(m_exceptions==Exceptions.INVALID_URL_EXCEPTION)
+					{
+						throw new CommonFunctionsExceptions(m_int_status, v_str_testdata);
+					}
+				}
+			}
+			else
+			{
+				glb_Logger_commonlogs.info("In navigateToLink()");
+				Exceptions m_exceptions=Exceptions.NULL_URL_EXCEPTION;
+				if(m_exceptions==Exceptions.NULL_URL_EXCEPTION)
+				{
+					throw new CommonFunctionsExceptions(v_str_testdata);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+		return m_bln_navigate;
+	}
+	/**
+	 *  @author mkarthik
+	 * date: October-21th
+	 * date of review: 
+	 * Description: This function is used to implicitly wait for the specified time for the elements in the page to load up
+	 */
+	private void implicitwait()
+	{
+		try{
+		glb_Webdriver_driver.manage().timeouts().implicitlyWait(Application_Constants.implict_wait_value,TimeUnit.SECONDS);
+		glb_Logger_commonlogs.info("In implicitwait()");
+		glb_Logger_commonlogs.info("Impilicit wait completed..");
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+	}
+	/**
+	 *  @author mkarthik
+	 * date: October-21th
+	 * date of review: 
+	 * Description: This function is used to for the entire page to load up in the specified time
+	 */
+	private void waitForPageToLoad()
+	{
+		try{
+		glb_Webdriver_driver.manage().timeouts().pageLoadTimeout(Application_Constants.page_load_timeout_value, TimeUnit.SECONDS);
+		glb_Logger_commonlogs.info("In waitForPageToLoad()");
+		glb_Logger_commonlogs.info("Wait for Page load completed..");
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
+	}
+	/**
+	 *  @author mkarthik
+	 * date: October-21th
+	 * date of review: 
+	 * Description: This function is used to for the refresh the current page
+	 */
+	public void refreshPage()
+	{
+		try{
+	    glb_Logger_commonlogs.info("In refreshPage()");
+		glb_Webdriver_driver.navigate().refresh();
+		waitForPageToLoad();
+		glb_Logger_commonlogs.info("Refresh page completed..");
+		}
+		catch(Exception e)
+		{
+			glb_Logger_commonlogs.error(e.getMessage());
+		}
 	}
 }
