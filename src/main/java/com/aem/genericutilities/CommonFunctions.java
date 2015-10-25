@@ -4,21 +4,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import static com.aem.keyword.Driver.TestSuiteDriver.glb_Properties_objectRepository;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
 
 import com.aem.application.Application_Constants;
-import com.aem.constants.Aem_Constants;
+import com.aem.keyword.Driver.TestSuiteDriver;
 
 /**
  * 
@@ -151,7 +154,7 @@ public class CommonFunctions implements Application_Constants
 	 * @throws CommonFunctionsExceptions
 	 * @return
 	 */
-	public boolean closeBrowser(String object,String testdata) throws CommonFunctionsExceptions
+	public static boolean closeBrowser(String object,String testdata) throws CommonFunctionsExceptions
 	{
 		boolean m_bln_close_state=false;
 		try
@@ -1182,4 +1185,92 @@ public class CommonFunctions implements Application_Constants
 			glb_Logger_commonlogs.error(e.getMessage());
 		}
 	}
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will open the browser specified in the external data source.
+	 */
+	public static void openBrowser(String object,String data){		
+		try{				
+			if(data.equals("Mozilla")){
+				glb_Webdriver_driver=new FirefoxDriver();
+			}
+			else if(data.equals("IE")){
+				//Implementation pending
+				glb_Webdriver_driver=new InternetExplorerDriver();
+				}
+			else if(data.equals("Chrome")){
+				//Implementation pending
+				glb_Webdriver_driver=new ChromeDriver();
+			}
+			int implicitWaitTime=(10);
+			glb_Webdriver_driver.manage().timeouts().implicitlyWait(implicitWaitTime, TimeUnit.SECONDS);
+		}catch (Exception e){
+			glb_Logger_commonlogs.error("Not able to open the Browser --- " + e.getMessage());
+			TestSuiteDriver.glb_Boolean_testResult = false;
+		}
+	}
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will navigate to the URL specified in the external data source.
+	 */
+	public static void navigate(String object, String data){
+		try{
+			glb_Logger_commonlogs.info("Navigating to URL..");
+			glb_Webdriver_driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			glb_Webdriver_driver.get(data);
+		}catch(Exception e){
+			glb_Logger_commonlogs.error("Not able to navigate --- " + e.getMessage());
+			TestSuiteDriver.glb_Boolean_testResult = false;
+			}
+		}
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will click on the object specified in the external data source.
+	 */
+	public static void click(String object, String data){
+		try{
+			glb_Logger_commonlogs.info("Clicking on Webelement.." + object);
+			glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).click();
+		 }catch(Exception e){
+			glb_Logger_commonlogs.error("Not able to click --- " + e.getMessage());
+ 		   	TestSuiteDriver.glb_Boolean_testResult = false;
+         	}
+		}
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will enter data in the object specified in the external data source.
+	 */
+	public static void input(String object, String data){
+		try{
+			glb_Logger_commonlogs.info("Entering the text in " + object);
+			glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).sendKeys(data);
+		 }catch(Exception e){
+			 glb_Logger_commonlogs.error("Not able to enter text --- " + e.getMessage());
+			 TestSuiteDriver.glb_Boolean_testResult = false;
+		 	}
+		}
+	
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will wait for the object specified for five seconds.
+	 */
+	public static void waitFor(String object, String data) throws Exception{
+		try{
+			glb_Logger_commonlogs.info("Waiting for " + object + " for five seconds");
+			Thread.sleep(5000);
+		 }catch(Exception e){
+			 glb_Logger_commonlogs.error("Not able to wait --- " + e.getMessage());
+			 TestSuiteDriver.glb_Boolean_testResult = false;
+         	}
+		}
 }
