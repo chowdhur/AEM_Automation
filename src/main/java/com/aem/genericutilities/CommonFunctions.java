@@ -1,14 +1,17 @@
 package com.aem.genericutilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
-import static com.aem.keyword.Driver.TestSuiteDriver.glb_Properties_objectRepository;
-
+import javax.imageio.ImageIO;
+import static com.aem.keyword.driver.TestSuiteDriver.glb_Properties_objectRepository;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,7 +24,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.aem.application.Application_Constants;
-import com.aem.keyword.Driver.TestSuiteDriver;
+import com.aem.constants.DriverConstants;
+import com.aem.keyword.driver.TestSuiteDriver;
 
 /**
  * 
@@ -36,6 +40,7 @@ public class CommonFunctions implements Application_Constants
 {
 	public static WebDriver glb_Webdriver_driver=null;
 	public static Logger glb_Logger_commonlogs=null;
+	public static int glb_Int_captureScreenshotCount =0;
 	
 	
 	/**
@@ -43,15 +48,14 @@ public class CommonFunctions implements Application_Constants
 	 * date: October 2nd
 	 * date of review: 
 	 * parameters : It is a zero parameterized constructor
-	 * Description: This constructor is used to initialize the browser
-	 * It takes the name of the browser from the interface com.aem.application.application_Constants
-	 * Based on the name it will create the Webdriver object
+	 * Description: This constructor is used to initialize the logs
+	 * 
 	 */
 	public CommonFunctions()
 	{
 		glb_Logger_commonlogs=CommonLogging.getLogObj(CommonFunctions.class);
 		
-		if(glb_Webdriver_driver==null)
+		/*if(glb_Webdriver_driver==null)
 		{
 			String m_driver_type=interf_Webdriver_driverType;
 			glb_Logger_commonlogs.info("The webdriver to be initialized is : "+m_driver_type);
@@ -66,7 +70,7 @@ public class CommonFunctions implements Application_Constants
 				default : glb_Logger_commonlogs.info("invalid name of driver");
 					  	  break;
 			}
-		}
+		}*/
 	}
 	/**
 	 * @author mkarthik
@@ -275,7 +279,7 @@ public class CommonFunctions implements Application_Constants
 	 * @return m_WebElemnt_element
 	 * @throws CommonFunctionsExceptions
 	 */
-	private WebElement locateElement(String locator) throws CommonFunctionsExceptions
+	private static WebElement locateElement(String locator) throws CommonFunctionsExceptions
 	{
 		WebElement m_WebElemnt_element=null;
 		try{
@@ -1136,7 +1140,7 @@ public class CommonFunctions implements Application_Constants
 	 * date of review: 
 	 * Description: This function is used to implicitly wait for the specified time for the elements in the page to load up
 	 */
-	private void implicitwait()
+	private static void implicitwait()
 	{
 		try{
 		glb_Webdriver_driver.manage().timeouts().implicitlyWait(Application_Constants.implict_wait_value,TimeUnit.SECONDS);
@@ -1189,11 +1193,48 @@ public class CommonFunctions implements Application_Constants
 	 * @author Narendra Prasad
 	 * date: October 26th 2015
 	 * date of review: 
-	 * Description: This method will open the browser specified in the external data source.
+	 * Description: This method will initialize the browser specified in the external data source.
 	 */
-	public static void openBrowser(String object,String data){		
+	public static void openBrowser(String object,String data){
+		String path;
+		glb_Logger_commonlogs.info("The webdriver to be initialized is : " + data);
 		try{				
-			if(data.equals("Mozilla")){
+			switch (data) {
+			
+				case "Mozilla": glb_Webdriver_driver = new FirefoxDriver();
+				            	glb_Logger_commonlogs.info(data + " webdriver is initialized...");
+				            	break;
+				            				
+	            case "IE":  	path = System.getProperty("user.dir") + "\\BrowserDrivers\\IEDriverServer.exe";
+								System.setProperty("webdriver.ie.driver", path);
+								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
+								break;
+											
+	            case "Chrome":  path = System.getProperty("user.dir") + "\\BrowserDrivers\\chrome.exe";
+								System.setProperty("webdriver.chrome.driver", path);
+								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
+								break;
+											
+	            case "Opera":  	path = System.getProperty("user.dir") + "\\BrowserDrivers\\opera.exe";
+								System.setProperty("webdriver.opera.driver", path);
+								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
+								break;
+											
+	            case "Safari": 	path = System.getProperty("user.dir") + "\\BrowserDrivers\\safari.exe";
+								System.setProperty("webdriver.safari.driver", path);
+								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
+								break;
+											
+	            default : 		glb_Logger_commonlogs.info("invalid name of driver");
+	            				break;
+			
+			}
+			
+			/*if(data.equals("Mozilla")){
 				glb_Webdriver_driver=new FirefoxDriver();
 			}
 			else if(data.equals("IE")){
@@ -1203,9 +1244,9 @@ public class CommonFunctions implements Application_Constants
 			else if(data.equals("Chrome")){
 				//Implementation pending
 				glb_Webdriver_driver=new ChromeDriver();
-			}
-			int implicitWaitTime=(10);
-			glb_Webdriver_driver.manage().timeouts().implicitlyWait(implicitWaitTime, TimeUnit.SECONDS);
+			}*/
+			glb_Webdriver_driver.manage().window().maximize();
+			implicitwait();
 		}catch (Exception e){
 			glb_Logger_commonlogs.error("Not able to open the Browser --- " + e.getMessage());
 			TestSuiteDriver.glb_Boolean_testResult = false;
@@ -1217,11 +1258,11 @@ public class CommonFunctions implements Application_Constants
 	 * date of review: 
 	 * Description: This method will navigate to the URL specified in the external data source.
 	 */
-	public static void navigate(String object, String data){
+	public static void navigate(String v_str_object, String v_str_data){
 		try{
 			glb_Logger_commonlogs.info("Navigating to URL..");
 			glb_Webdriver_driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			glb_Webdriver_driver.get(data);
+			glb_Webdriver_driver.get(v_str_data);
 		}catch(Exception e){
 			glb_Logger_commonlogs.error("Not able to navigate --- " + e.getMessage());
 			TestSuiteDriver.glb_Boolean_testResult = false;
@@ -1232,14 +1273,20 @@ public class CommonFunctions implements Application_Constants
 	 * date: October 26th 2015
 	 * date of review: 
 	 * Description: This method will click on the object specified in the external data source.
+	 * @throws IOException 
 	 */
-	public static void click(String object, String data){
+	public static void click(String v_str_object, String v_str_data) throws IOException{
 		try{
-			glb_Logger_commonlogs.info("Clicking on Webelement.." + object);
-			glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).click();
+			glb_Logger_commonlogs.info("Clicking on Webelement.." + v_str_object);
+			System.out.println("locator: " + glb_Properties_objectRepository.getProperty(v_str_object));
+			WebElement element = locateElement(glb_Properties_objectRepository.getProperty(v_str_object));
+			element.click();
+			//glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(v_str_object))).click();
 		 }catch(Exception e){
 			glb_Logger_commonlogs.error("Not able to click --- " + e.getMessage());
+			captureAndSaveScreenshot();
  		   	TestSuiteDriver.glb_Boolean_testResult = false;
+ 		   	TestSuiteDriver.glb_String_failureMessage = "Not able to click --- " + e.getMessage();
          	}
 		}
 	/**
@@ -1247,16 +1294,31 @@ public class CommonFunctions implements Application_Constants
 	 * date: October 26th 2015
 	 * date of review: 
 	 * Description: This method will enter data in the object specified in the external data source.
+	 * @throws IOException 
 	 */
-	public static void input(String object, String data){
+	public static void input(String object, String data) throws IOException{
 		try{
 			glb_Logger_commonlogs.info("Entering the text in " + object);
 			glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).sendKeys(data);
 		 }catch(Exception e){
 			 glb_Logger_commonlogs.error("Not able to enter text --- " + e.getMessage());
+			 captureAndSaveScreenshot();
 			 TestSuiteDriver.glb_Boolean_testResult = false;
+			 TestSuiteDriver.glb_String_failureMessage = "Not able to click --- " + e.getMessage();
 		 	}
 		}
+	/**
+	 * @author Narendra Prasad
+	 * date: October 26th 2015
+	 * date of review: 
+	 * Description: This method will capture screenshot for each failure and save it in target/extent-reports.
+	 * @throws IOException 
+	 */
+	private static void captureAndSaveScreenshot() throws IOException{
+		File scrFile = ((TakesScreenshot)glb_Webdriver_driver).getScreenshotAs(OutputType.FILE);
+		ImageIO.write(ImageIO.read(scrFile), DriverConstants.FAILURE_FILE_FORMAT, new File(DriverConstants.FAILURE_IMAGE_PATH + DriverConstants.FAILURE_FILE_PREFIX +glb_Int_captureScreenshotCount + DriverConstants.FAILURE_FILE_EXTENSION));
+		glb_Int_captureScreenshotCount++;
+	}
 	
 	/**
 	 * @author Narendra Prasad
