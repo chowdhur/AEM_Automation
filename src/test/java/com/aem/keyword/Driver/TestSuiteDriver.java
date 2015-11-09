@@ -58,7 +58,7 @@ public class TestSuiteDriver {
 		glb_Logger_commonlogs=CommonLogging.getLogObj(TestSuiteDriver.class);
 	
 		try {
-			ExcelLibrary.setTestSuiteFile(DriverConstants.TEST_SUITE_PATH);
+			ExcelLibrary.setTestSuiteFile(DriverConstants.TEST_SUITE_PATH);			
 		} catch (Exception e) {
 			glb_Logger_commonlogs.error("Class :: TestSuiteDriver | Method :: main | Exception desc : " + e.getMessage());
 		}
@@ -146,8 +146,7 @@ public class TestSuiteDriver {
 					}else{
 						ExcelLibrary.setCellData(DriverConstants.FAIL, glb_Int_testStep, DriverConstants.TEST_STEP_RESULT, DriverConstants.TEST_STEPS_SHEET);
 						String path = DriverConstants.FAILURE_IMAGE_PATH + DriverConstants.FAILURE_FILE_PREFIX + glb_Int_failCount + DriverConstants.FAILURE_FILE_EXTENSION;
-						System.out.println(path);
-					
+											
 						String image = glb_ExtentTest_test.addScreenCapture(path);
 						glb_ExtentTest_test.log(LogStatus.FAIL, glb_String_actionKeyword, glb_String_testStepDescription + DriverConstants.SPACE + image + DriverConstants.SPACE + glb_String_failureMessage);
 						
@@ -159,5 +158,4 @@ public class TestSuiteDriver {
 			
 				}
 	     }
-
 }
