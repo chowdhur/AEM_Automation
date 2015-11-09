@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
 import javax.imageio.ImageIO;
+
 import static com.aem.keyword.driver.TestSuiteDriver.glb_Properties_objectRepository;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,6 +22,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -54,23 +59,6 @@ public class CommonFunctions implements Application_Constants
 	public CommonFunctions()
 	{
 		glb_Logger_commonlogs=CommonLogging.getLogObj(CommonFunctions.class);
-		
-		/*if(glb_Webdriver_driver==null)
-		{
-			String m_driver_type=interf_Webdriver_driverType;
-			glb_Logger_commonlogs.info("The webdriver to be initialized is : "+m_driver_type);
-			
-			switch(m_driver_type)
-			{
-				case "firefox": glb_Webdriver_driver=new FirefoxDriver();
-								implicitwait();
-								glb_Logger_commonlogs.info("The webdriver is initialized...");
-								break;
-								
-				default : glb_Logger_commonlogs.info("invalid name of driver");
-					  	  break;
-			}
-		}*/
 	}
 	/**
 	 * @author mkarthik
@@ -301,15 +289,22 @@ public class CommonFunctions implements Application_Constants
 										if(m_WebElemnt_element!=null)
 										{
 											glb_Logger_commonlogs.info("WebElement located with using xpath : "+m_locator_value);
-										}
+											
+										}										
 									 }
 									catch(TimeoutException e)
 									{
 										glb_Logger_commonlogs.error(e.getMessage());
+										 captureAndSaveScreenshot();
+										TestSuiteDriver.glb_Boolean_testResult = false;
+							 		   	TestSuiteDriver.glb_String_failureMessage = "Not able to locate --- " + m_locator_value + "Error Description: " + e.getMessage();
 									}
 									catch(Exception e)
 									{
-										glb_Logger_commonlogs.error(e.getMessage());
+										glb_Logger_commonlogs.info("Not able to locate" + e.getMessage());
+										 captureAndSaveScreenshot();
+										TestSuiteDriver.glb_Boolean_testResult = false;
+							 		   	TestSuiteDriver.glb_String_failureMessage = "Not able to locate --- " + m_locator_value + "Error Description: " + e.getMessage();
 									}
 					 			  	break;
 								 
@@ -1213,19 +1208,19 @@ public class CommonFunctions implements Application_Constants
 											
 	            case "Chrome":  path = System.getProperty("user.dir") + "\\BrowserDrivers\\chrome.exe";
 								System.setProperty("webdriver.chrome.driver", path);
-								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Webdriver_driver = new ChromeDriver();
 								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
 								break;
 											
 	            case "Opera":  	path = System.getProperty("user.dir") + "\\BrowserDrivers\\opera.exe";
 								System.setProperty("webdriver.opera.driver", path);
-								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Webdriver_driver = new OperaDriver();
 								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
 								break;
 											
 	            case "Safari": 	path = System.getProperty("user.dir") + "\\BrowserDrivers\\safari.exe";
 								System.setProperty("webdriver.safari.driver", path);
-								glb_Webdriver_driver = new InternetExplorerDriver();
+								glb_Webdriver_driver = new SafariDriver();
 								glb_Logger_commonlogs.info(data + " webdriver is initialized...");
 								break;
 											
@@ -1233,18 +1228,6 @@ public class CommonFunctions implements Application_Constants
 	            				break;
 			
 			}
-			
-			/*if(data.equals("Mozilla")){
-				glb_Webdriver_driver=new FirefoxDriver();
-			}
-			else if(data.equals("IE")){
-				//Implementation pending
-				glb_Webdriver_driver=new InternetExplorerDriver();
-				}
-			else if(data.equals("Chrome")){
-				//Implementation pending
-				glb_Webdriver_driver=new ChromeDriver();
-			}*/
 			glb_Webdriver_driver.manage().window().maximize();
 			implicitwait();
 		}catch (Exception e){
@@ -1278,15 +1261,14 @@ public class CommonFunctions implements Application_Constants
 	public static void click(String v_str_object, String v_str_data) throws IOException{
 		try{
 			glb_Logger_commonlogs.info("Clicking on Webelement.." + v_str_object);
-			System.out.println("locator: " + glb_Properties_objectRepository.getProperty(v_str_object));
-			WebElement element = locateElement(glb_Properties_objectRepository.getProperty(v_str_object));
-			element.click();
-			//glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(v_str_object))).click();
+			WebElement m_WebElement_element = locateElement(glb_Properties_objectRepository.getProperty(v_str_object));
+			if(m_WebElement_element!=null)
+			 m_WebElement_element.click();
 		 }catch(Exception e){
-			glb_Logger_commonlogs.error("Not able to click --- " + e.getMessage());
+			glb_Logger_commonlogs.error("Not able to click " + v_str_object + "Error Description" + e.getMessage());
 			captureAndSaveScreenshot();
  		   	TestSuiteDriver.glb_Boolean_testResult = false;
- 		   	TestSuiteDriver.glb_String_failureMessage = "Not able to click --- " + e.getMessage();
+ 		   	TestSuiteDriver.glb_String_failureMessage = "Not able to click " +v_str_object + "Error Description" + e.getMessage();
          	}
 		}
 	/**
@@ -1296,10 +1278,14 @@ public class CommonFunctions implements Application_Constants
 	 * Description: This method will enter data in the object specified in the external data source.
 	 * @throws IOException 
 	 */
-	public static void input(String object, String data) throws IOException{
+	public static void input(String v_str_object, String data) throws IOException{
 		try{
-			glb_Logger_commonlogs.info("Entering the text in " + object);
-			glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).sendKeys(data);
+			glb_Logger_commonlogs.info("Entering the text in " + v_str_object);
+			WebElement element = locateElement(glb_Properties_objectRepository.getProperty(v_str_object));
+			if(element!=null)
+			element.sendKeys(data);
+			
+			//glb_Webdriver_driver.findElement(By.xpath(glb_Properties_objectRepository.getProperty(object))).sendKeys(data);
 		 }catch(Exception e){
 			 glb_Logger_commonlogs.error("Not able to enter text --- " + e.getMessage());
 			 captureAndSaveScreenshot();
