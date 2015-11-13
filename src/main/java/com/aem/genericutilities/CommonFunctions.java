@@ -1304,21 +1304,6 @@ public class CommonFunctions implements Application_Constants
 		File scrFile = ((TakesScreenshot)glb_Webdriver_driver).getScreenshotAs(OutputType.FILE);
 		ImageIO.write(ImageIO.read(scrFile), DriverConstants.FAILURE_FILE_FORMAT, new File(DriverConstants.FAILURE_IMAGE_PATH + DriverConstants.FAILURE_FILE_PREFIX +glb_Int_captureScreenshotCount + DriverConstants.FAILURE_FILE_EXTENSION));
 		glb_Int_captureScreenshotCount++;
-	}
+	}	
 	
-	/**
-	 * @author Narendra Prasad
-	 * date: October 26th 2015
-	 * date of review: 
-	 * Description: This method will wait for the object specified for five seconds.
-	 */
-	public static void waitFor(String object, String data) throws Exception{
-		try{
-			glb_Logger_commonlogs.info("Waiting for " + object + " for five seconds");
-			Thread.sleep(5000);
-		 }catch(Exception e){
-			 glb_Logger_commonlogs.error("Not able to wait --- " + e.getMessage());
-			 TestSuiteDriver.glb_Boolean_testResult = false;
-         	}
-		}
 }
