@@ -15,6 +15,7 @@ import com.relevantcodes.extentreports.NetworkMode;
 public class DriverConstants {
 	
 	//Keyword Driver Constants
+	//public static final String TEST_SUITE_PATH=System.getProperty("user.dir")+"\\src\\test\\resources\\com\\aem\\datasource\\TestSuite.xlsx";
 	public static final String TEST_SUITE_PATH=System.getProperty("user.dir")+"/src/test/resources/com/aem/datasource/TestSuite.xlsx";
 	public static final String OBJECT_REPOSITORY_PATH=System.getProperty("user.dir")+"/src/main/resources/com/aem/objectRepository/ObjectRepository.properties";
 	public static final String FAIL = "FAIL";
@@ -24,7 +25,7 @@ public class DriverConstants {
 	// Test Suite Sheet Constants
 	public static final String TEST_STEPS_SHEET = "Test Steps";
 	public static final String TEST_CASES_SHEET = "Test Cases";
-	public static final String FAILURE_FILE_PREFIX = "FAILURE00";
+	public static final String FAILURE_FILE_PREFIX = "FAILURE";
 	public static final String FAILURE_FILE_EXTENSION = ".jpg";
 	public static final String FAILURE_FILE_FORMAT = "JPG";
 	public static final String DOUBLE_QUOTES = "";
