@@ -1,0 +1,158 @@
+0    [2016-01-21 14:17:36,504] [INFO ] [com.aem.keyword.driver.TestSuiteDriver ] - Verify AEM Forms test case execution started...
+13   [2016-01-21 14:17:36,517] [INFO ] [com.aem.genericutilities.CommonFunctions ] - The webdriver to be initialized is : Chrome
+3875 [2016-01-21 14:17:40,379] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Chrome webdriver is initialized...
+4065 [2016-01-21 14:17:40,569] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In implicitwait()
+4065 [2016-01-21 14:17:40,569] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Impilicit wait completed..
+4914 [2016-01-21 14:17:41,418] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Navigating to URL..
+7342 [2016-01-21 14:17:43,846] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_username
+7345 [2016-01-21 14:17:43,849] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+7345 [2016-01-21 14:17:43,849] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+7402 [2016-01-21 14:17:43,906] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@id='login_username']
+7481 [2016-01-21 14:17:43,985] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_username
+7632 [2016-01-21 14:17:44,136] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_password
+7632 [2016-01-21 14:17:44,136] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+7632 [2016-01-21 14:17:44,136] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+7668 [2016-01-21 14:17:44,172] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@id='login_password']
+7742 [2016-01-21 14:17:44,246] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input password on: txtbox_password
+7877 [2016-01-21 14:17:44,381] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_signin
+7877 [2016-01-21 14:17:44,381] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+7877 [2016-01-21 14:17:44,381] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+7922 [2016-01-21 14:17:44,426] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='login']/button
+7957 [2016-01-21 14:17:44,461] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_signin
+8085 [2016-01-21 14:17:44,589] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Waiting for 2 seconds
+10287 [2016-01-21 14:17:46,791] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..link_Profiles
+10287 [2016-01-21 14:17:46,791] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+10287 [2016-01-21 14:17:46,791] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+10342 [2016-01-21 14:17:46,846] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //ul[@class='nav navbar-nav top-menu']/li[3]
+10378 [2016-01-21 14:17:46,882] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: link_Profiles
+10498 [2016-01-21 14:17:47,002] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_editProfile
+10498 [2016-01-21 14:17:47,002] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+10498 [2016-01-21 14:17:47,002] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+12548 [2016-01-21 14:17:49,052] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[text()='Edit Profile']
+12634 [2016-01-21 14:17:49,138] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_editProfile
+12746 [2016-01-21 14:17:49,250] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_Next
+12746 [2016-01-21 14:17:49,250] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+12747 [2016-01-21 14:17:49,251] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+12807 [2016-01-21 14:17:49,311] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[@aria-label='Next']
+12862 [2016-01-21 14:17:49,366] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_Next
+12988 [2016-01-21 14:17:49,492] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+12988 [2016-01-21 14:17:49,492] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+13351 [2016-01-21 14:17:49,855] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='yearsofexp']
+13521 [2016-01-21 14:17:50,025] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+13521 [2016-01-21 14:17:50,025] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+13564 [2016-01-21 14:17:50,068] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : (//select[@aria-label='Drop-down list'])[1]
+13683 [2016-01-21 14:17:50,187] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_dateOfJoin
+13683 [2016-01-21 14:17:50,187] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+13683 [2016-01-21 14:17:50,187] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+13734 [2016-01-21 14:17:50,238] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[starts-with(@aria-label , 'Date of Joining Adobe')]
+13822 [2016-01-21 14:17:50,326] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_dateOfJoin
+13911 [2016-01-21 14:17:50,415] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtarea_funcCompetency
+13911 [2016-01-21 14:17:50,415] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+13911 [2016-01-21 14:17:50,415] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+13953 [2016-01-21 14:17:50,457] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //textarea[@aria-label='Functional Competency']
+14041 [2016-01-21 14:17:50,545] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtarea_funcCompetency
+14152 [2016-01-21 14:17:50,656] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+14153 [2016-01-21 14:17:50,657] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+14191 [2016-01-21 14:17:50,695] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : (//select[@aria-label='Drop-down list'])[2]
+14340 [2016-01-21 14:17:50,844] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_skill
+14341 [2016-01-21 14:17:50,845] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+14342 [2016-01-21 14:17:50,846] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+14406 [2016-01-21 14:17:50,910] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='Skills']
+14513 [2016-01-21 14:17:51,017] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_skill
+14605 [2016-01-21 14:17:51,109] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+14605 [2016-01-21 14:17:51,109] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+14670 [2016-01-21 14:17:51,174] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='Degree']
+14786 [2016-01-21 14:17:51,290] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_specialization
+14786 [2016-01-21 14:17:51,290] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+14786 [2016-01-21 14:17:51,290] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+14821 [2016-01-21 14:17:51,325] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='Specialization']
+14931 [2016-01-21 14:17:51,435] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_specialization
+15047 [2016-01-21 14:17:51,551] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_university
+15047 [2016-01-21 14:17:51,551] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+15047 [2016-01-21 14:17:51,551] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+15088 [2016-01-21 14:17:51,592] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='University/Institution']
+15180 [2016-01-21 14:17:51,684] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_university
+15280 [2016-01-21 14:17:51,784] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+15280 [2016-01-21 14:17:51,784] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+15331 [2016-01-21 14:17:51,835] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='Year of Passout ']
+15449 [2016-01-21 14:17:51,953] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_Next
+15449 [2016-01-21 14:17:51,953] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+15449 [2016-01-21 14:17:51,953] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+15476 [2016-01-21 14:17:51,980] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[@aria-label='Next']
+15517 [2016-01-21 14:17:52,021] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_Next
+15660 [2016-01-21 14:17:52,164] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Waiting for 5 seconds
+20827 [2016-01-21 14:17:57,331] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+20827 [2016-01-21 14:17:57,331] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+20900 [2016-01-21 14:17:57,404] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='Product']
+21133 [2016-01-21 14:17:57,637] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+21133 [2016-01-21 14:17:57,637] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+21208 [2016-01-21 14:17:57,712] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='Expertise']
+21439 [2016-01-21 14:17:57,943] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+21439 [2016-01-21 14:17:57,943] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+21479 [2016-01-21 14:17:57,983] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='productexpertiseyears']
+21589 [2016-01-21 14:17:58,093] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+21589 [2016-01-21 14:17:58,093] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+21634 [2016-01-21 14:17:58,138] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='productexpertisemonths']
+21776 [2016-01-21 14:17:58,280] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..checkbox_adobeSecondaryProduct
+21776 [2016-01-21 14:17:58,280] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+21777 [2016-01-21 14:17:58,281] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+21820 [2016-01-21 14:17:58,324] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='AEM']
+21877 [2016-01-21 14:17:58,381] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: checkbox_adobeSecondaryProduct
+21962 [2016-01-21 14:17:58,466] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..checkbox_otherSkills
+21962 [2016-01-21 14:17:58,466] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+21963 [2016-01-21 14:17:58,467] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+22002 [2016-01-21 14:17:58,506] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='Mongo DB']
+22054 [2016-01-21 14:17:58,558] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: checkbox_otherSkills
+22154 [2016-01-21 14:17:58,658] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..checkbox_foreignLang
+22154 [2016-01-21 14:17:58,658] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+22154 [2016-01-21 14:17:58,658] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+22202 [2016-01-21 14:17:58,706] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //input[@aria-label='Spanish']
+22267 [2016-01-21 14:17:58,771] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: checkbox_foreignLang
+22405 [2016-01-21 14:17:58,909] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+22405 [2016-01-21 14:17:58,909] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+22448 [2016-01-21 14:17:58,952] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //select[@aria-label='Certification Name']
+22563 [2016-01-21 14:17:59,067] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_Next
+22563 [2016-01-21 14:17:59,067] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+22563 [2016-01-21 14:17:59,067] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+22592 [2016-01-21 14:17:59,096] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[@aria-label='Next']
+22639 [2016-01-21 14:17:59,143] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_Next
+22732 [2016-01-21 14:17:59,236] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Waiting for 5 seconds
+27892 [2016-01-21 14:18:04,396] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtarea_consultingEngagement
+27892 [2016-01-21 14:18:04,396] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+27892 [2016-01-21 14:18:04,396] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+27952 [2016-01-21 14:18:04,456] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='guideContainer-rootPanel-panel4-guidetextbox___widget']
+28106 [2016-01-21 14:18:04,610] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtarea_consultingEngagement
+28203 [2016-01-21 14:18:04,707] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_projectName
+28203 [2016-01-21 14:18:04,707] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+28203 [2016-01-21 14:18:04,707] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+28334 [2016-01-21 14:18:04,838] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='guideContainer-rootPanel-panel4-panel-guidetextbox___widget']
+28464 [2016-01-21 14:18:04,968] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_projectName
+28573 [2016-01-21 14:18:05,077] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_companyName
+28573 [2016-01-21 14:18:05,077] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+28573 [2016-01-21 14:18:05,077] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+28616 [2016-01-21 14:18:05,120] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='guideContainer-rootPanel-panel4-panel-guidetextbox_507681174___widget']
+28707 [2016-01-21 14:18:05,211] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_companyName
+28790 [2016-01-21 14:18:05,294] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtbox_position
+28790 [2016-01-21 14:18:05,294] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+28790 [2016-01-21 14:18:05,294] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+28840 [2016-01-21 14:18:05,344] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='guideContainer-rootPanel-panel4-panel-guidetextbox_1846961219___widget']
+28957 [2016-01-21 14:18:05,461] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtbox_position
+29059 [2016-01-21 14:18:05,563] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Entering the text in txtarea_role
+29059 [2016-01-21 14:18:05,563] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+29059 [2016-01-21 14:18:05,563] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+29102 [2016-01-21 14:18:05,606] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //*[@id='guideContainer-rootPanel-panel4-panel-guidetextbox_2026868283___widget']
+29195 [2016-01-21 14:18:05,699] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully input text on: txtarea_role
+29282 [2016-01-21 14:18:05,786] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_submit
+29282 [2016-01-21 14:18:05,786] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+29282 [2016-01-21 14:18:05,786] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+29328 [2016-01-21 14:18:05,832] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[@aria-label='Save']
+29383 [2016-01-21 14:18:05,887] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_submit
+29639 [2016-01-21 14:18:06,143] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully locate element: txt_savedSuccessfully
+29786 [2016-01-21 14:18:06,290] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Clicking on Webelement..btn_downloadProfile
+29787 [2016-01-21 14:18:06,291] [INFO ] [com.aem.genericutilities.CommonFunctions ] - In splitText()
+29787 [2016-01-21 14:18:06,291] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Only one locator exists..
+29839 [2016-01-21 14:18:06,343] [INFO ] [com.aem.genericutilities.CommonFunctions ] - WebElement located with using xpath : //button[@id='download-profile']
+29901 [2016-01-21 14:18:06,405] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Successfully clicked on: btn_downloadProfile
+30203 [2016-01-21 14:18:06,707] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Waiting for 10 seconds
+41469 [2016-01-21 14:18:17,973] [INFO ] [com.aem.keyword.driver.TestSuiteDriver ] - Verify AEM Forms test case execution is complete...
+41634 [2016-01-21 14:18:18,138] [INFO ] [com.aem.genericutilities.CommonFunctions ] - Closed browser...
