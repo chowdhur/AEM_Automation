@@ -42,7 +42,6 @@ public class TestSuiteDriver {
 	public static String glb_String_testStepDescription=null;
 	public static int glb_Int_failCount =0;
 	public static String glb_String_failureMessage = null;
-	public static String glb_String_exceptionMessage = null;
 	
 	
 	/**
@@ -59,14 +58,11 @@ public class TestSuiteDriver {
 		glb_Logger_commonlogs=CommonLogging.getLogObj(TestSuiteDriver.class);
 	
 		try {
-			System.out.println("Here::"+DriverConstants.TEST_SUITE_PATH);
-			ExcelLibrary.setTestSuiteFile(DriverConstants.TEST_SUITE_PATH);
-			System.out.println("Here::"+DriverConstants.TEST_SUITE_PATH);
+			ExcelLibrary.setTestSuiteFile(DriverConstants.TEST_SUITE_PATH);			
 		} catch (Exception e) {
 			glb_Logger_commonlogs.error("Class :: TestSuiteDriver | Method :: main | Exception desc : " + e.getMessage());
 		}
-    	//Accessing object repository
-		String objectRepositoryPath = DriverConstants.OBJECT_REPOSITORY_PATH;
+    	String objectRepositoryPath = DriverConstants.OBJECT_REPOSITORY_PATH;
 		FileInputStream fs;
 		try {
 			fs = new FileInputStream(objectRepositoryPath);
@@ -104,9 +100,7 @@ public class TestSuiteDriver {
 				glb_Int_testStep = ExcelLibrary.getRowContains(glb_String_testCaseName, DriverConstants.TEST_CASE_ID, DriverConstants.TEST_STEPS_SHEET);
 				glb_Int_testLastStep = ExcelLibrary.getTestStepsCount(DriverConstants.TEST_STEPS_SHEET, glb_String_testCaseName, glb_Int_testStep);
 				glb_Boolean_testResult=true;
-				
 				for (;glb_Int_testStep<glb_Int_testLastStep;glb_Int_testStep++){
-					glb_String_exceptionMessage = "";
 		    		glb_String_actionKeyword = ExcelLibrary.getCellData(glb_Int_testStep, DriverConstants.ACTION_KEYWORD,DriverConstants.TEST_STEPS_SHEET);
 		    		glb_String_pageObject = ExcelLibrary.getCellData(glb_Int_testStep, DriverConstants.PAGE_OBJECT, DriverConstants.TEST_STEPS_SHEET);
 		    		glb_String_data = ExcelLibrary.getCellData(glb_Int_testStep, DriverConstants.DATA_SET, DriverConstants.TEST_STEPS_SHEET);
@@ -116,8 +110,8 @@ public class TestSuiteDriver {
 						ExcelLibrary.setCellData(DriverConstants.FAIL,testCaseNumber,DriverConstants.RESULT,DriverConstants.TEST_CASES_SHEET);
 						glb_Logger_commonlogs.info(glb_String_testCaseName + " test case execution is complete...");
 						break;
-					}						
-				}
+						}						
+					}
 				if(glb_Boolean_testResult==true){
 				ExcelLibrary.setCellData(DriverConstants.PASS,testCaseNumber,DriverConstants.RESULT,DriverConstants.TEST_CASES_SHEET);	
 				glb_Logger_commonlogs.info(glb_String_testCaseName + " test case execution is complete...");
@@ -164,5 +158,4 @@ public class TestSuiteDriver {
 			
 				}
 	     }
-
 }
